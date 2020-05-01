@@ -34,17 +34,22 @@ class Linkify < Formula
 
   def caveats
     <<~EOS
-      We've installed your Linkify database at #{database} without any users initialized. To add a user run:
+      We've installed your Linkify database at #{database} without any users initialized.
+      To add a user run:
           linkify --db #{database} users add <username>
 
-      and provide a password when asked. To generate a token for browser extension run subsequently:
+      and set user's password when asked. To generate a token for HTTP communication, required
+      also by browser extension, run subsequently:
           linkify --db #{database} users token <username>
 
       Generated token allows you to authenticate with HTTP server running at http://localhost:8001.
-      To not specify database each time, export database path to environmental variable:
+      To not specify database each time when linkify is used as a command line, export database
+      path to environmental variable:
           export LINKIFY_DB_PATH=#{database}
 
-      You may also specify the same way user, password and/or token, eg:
+      You may also export the same way user, password and/or token, eg:
+          export LINKIFY_USER=<username>
+          export LINKIFY_PASSWORD=<password>
           export LINKIFY_API_KEY=<generated token>
     EOS
   end
