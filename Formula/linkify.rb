@@ -19,7 +19,7 @@ class Linkify < Formula
   end
 
   def database
-    "#{datadir}/default.db"
+    datadir/"default.db"
   end
 
   def install
@@ -49,7 +49,7 @@ class Linkify < Formula
     EOS
   end
 
-  plist_options :manual => "linkify --db #{database} server"
+  plist_options :manual => "LOG_LEVEL=debug linkify --db #{HOMEBREW_PREFIX}/var/linkify/default.db server"
 
   def plist
     <<~EOS
