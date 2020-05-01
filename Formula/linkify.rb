@@ -12,7 +12,7 @@ class Linkify < Formula
      sha256 "6b27c5702446779a812430de5f49077bc92495b57e31dc5f851203280c8f1208"
   end
 
-  #depends_on "rust" => :build
+  depends_on "rust" => :build
 
   def install
     system "cargo", "build", "--release", "--bin", "linkify"
