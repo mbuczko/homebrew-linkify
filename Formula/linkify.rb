@@ -14,9 +14,56 @@ class Linkify < Formula
 
   depends_on "rust" => :build
 
+  def datadir
+    var/"linkify"
+  end
+
   def install
     system "cargo", "build", "--release", "--bin", "linkify"
     bin.install "target/release/linkify"
+  end
+
+  def post_install
+    # Make sure the datadir exists
+    datadir.mkpath
+  end
+
+  def caveats
+    <<~EOS
+      We've installed your Linkify database at #{datadir/default.db} without any users initialized. To add a user run:
+          linkify users add <username>
+
+      and provide a password when asked. To generate a token for browser extension run subsequently:
+          linkify users token <username>
+
+      Generated token allows you to authenticate with HTTP server running at http://localhost:8001
+    EOS
+  end
+
+  plist_options :manual => "linkify.server start"
+
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+        <key>KeepAlive</key>
+        <true/>
+        <key>Label</key>
+        <string>#{plist_name}</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>--db=#{datadir}/default.db</string>
+          <string>server</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>WorkingDirectory</key>
+        <string>#{datadir}</string>
+      </dict>
+      </plist>
+    EOS
   end
 
 end
