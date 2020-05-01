@@ -18,6 +18,10 @@ class Linkify < Formula
     var/"linkify"
   end
 
+  def database
+    datadir/"default.db"
+  end
+
   def install
     system "cargo", "build", "--release", "--bin", "linkify"
     bin.install "target/release/linkify"
@@ -29,24 +33,23 @@ class Linkify < Formula
   end
 
   def caveats
-    db = "#{datadir}/default.db"
     <<~EOS
-      We've installed your Linkify database at #{db} without any users initialized. To add a user run:
-          linkify --db #{db} users add <username>
+      We've installed your Linkify database at #{database} without any users initialized. To add a user run:
+          linkify --db #{database} users add <username>
 
       and provide a password when asked. To generate a token for browser extension run subsequently:
-          linkify --db #{db} users token <username>
+          linkify --db #{database} users token <username>
 
       Generated token allows you to authenticate with HTTP server running at http://localhost:8001.
       To not specify database each time, export database path to environmental variable:
-          export LINKIFY_DB_PATH=#{db}
+          export LINKIFY_DB_PATH=#{database}
 
       You may also specify the same way user, password and/or token, eg:
           export LINKIFY_API_KEY=<generated token>
     EOS
   end
 
-  plist_options :manual => "linkify.server start"
+  plist_options :manual => "linkify --db #{database} server"
 
   def plist
     <<~EOS
@@ -60,7 +63,8 @@ class Linkify < Formula
         <string>#{plist_name}</string>
         <key>ProgramArguments</key>
         <array>
-          <string>--db=#{datadir}/default.db</string>
+          <string>#{opt_bin}/linkify</string>
+          <string>--db=#{database}</string>
           <string>server</string>
         </array>
         <key>RunAtLoad</key>
