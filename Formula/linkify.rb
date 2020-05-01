@@ -19,7 +19,7 @@ class Linkify < Formula
   end
 
   def database
-    datadir/"default.db"
+    "#{datadir}/default.db"
   end
 
   def install
