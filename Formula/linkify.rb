@@ -2,14 +2,14 @@ class Linkify < Formula
 
   desc "Manage locally with your precious links"
   homepage "https://github.com/mbuczko/linkify"
-  version "0.1.5"
+  version "0.1.6"
 
   if OS.linux?
-    url "https://github.com/mbuczko/linkify/archive/v0.1.4.tar.gz"
-    sha256 "3e44178f34f91dcdafc562fa949b3853e7a669f965cf2551cfce5e32d0a9c4f5"
+    url "https://github.com/mbuczko/linkify/archive/v0.1.6.tar.gz"
+    sha256 "34f8947735c3f36b9e7853adb7ee396d1d53de2fa12c48863c301a9bae8fddfb"
   else
-     url "https://github.com/mbuczko/linkify/archive/v0.1.4.zip"
-     sha256 "c4d2a6e75ada1678dfd716332f31b1cbefedc564c82316af28007a383ca9acc6"
+     url "https://github.com/mbuczko/linkify/archive/v0.1.6.zip"
+     sha256 "688961393cc59670a06d9675dd32f2ce59076c22f9c76db2b040ebed5c4ca32c"
   end
 
   depends_on "rust" => :build
